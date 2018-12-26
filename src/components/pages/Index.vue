@@ -56,7 +56,7 @@
       return {
         gameData: {
           username: '',
-          timeLeft: 3,
+          timeLeft: 60,
           score: 0,
           isGameActive: false
         },
@@ -103,7 +103,7 @@
       },
       setDefaults(){
         this.gameData.score = 0;
-        this.gameData.timeLeft = 10;
+        this.gameData.timeLeft = 60;
       },
       openPlayerNameModal(){
         this.$root.$emit('openPlayerNameModal');
