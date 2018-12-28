@@ -68,6 +68,9 @@
 
   #cookie {
     position: absolute;
+    top: 10px;
+    left: 10px;
+    transition: left 0.25s ease,  top 0.25s ease;
   }
 
 </style>

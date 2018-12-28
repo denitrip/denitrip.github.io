@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-jumbotron bg-variant="info" text-variant="white" border-variant="dark">
+    <b-jumbotron text-variant="white" border-variant="dark">
         <b-row>
           <b-col>
             <label>Name:</label>
@@ -33,7 +33,7 @@
         </b-col>
       </b-row>
     </b-jumbotron>
-    <span v-show="gameData.isGameActive" @click="updateScore">
+    <span v-show="gameData.isGameActive" @click="updateScore" >
     <cookie></cookie>
     </span>
     <player-name-modal></player-name-modal>
@@ -56,9 +56,10 @@
       return {
         gameData: {
           username: '',
-          timeLeft: 60,
+          timeLeft: 3,
+          maxTime: 3,
           score: 0,
-          isGameActive: false
+          isGameActive: false,
         },
         previousResults: []
       }
@@ -103,13 +104,26 @@
       },
       setDefaults(){
         this.gameData.score = 0;
-        this.gameData.timeLeft = 60;
+        this.gameData.timeLeft = this.gameData.maxTime;
       },
       openPlayerNameModal(){
         this.$root.$emit('openPlayerNameModal');
       },
       openPreviousResultsModal(){
         this.$root.$emit('openPreviousResultsModal', this.previousResults);
+      },
+      gameModeCheck(userData) {
+        switch(userData.gameSpeed) {
+          case 'fast':
+            this.gameData.maxTime = 20;
+            break;
+          case 'medium':
+            this.gameData.maxTime = 40;
+            break;
+          case 'normal':
+            this.gameData.maxTime = 60;
+            break;
+        }
       }
     },
     computed: {
@@ -118,6 +132,8 @@
       this.openPlayerNameModal();
       this.$root.$on('startTheGame', (userData) => {
         this.gameData.username = userData.username;
+        this.gameModeCheck(userData);
+        this.setDefaults();
         this.start();
       })
     }
@@ -125,4 +141,9 @@
 </script>
 
 <style scoped>
+
+  .jumbotron {
+    background-color: rgb(0, 0, 0, 0.4)!important;
+  }
+
 </style>

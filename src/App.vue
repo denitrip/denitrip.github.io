@@ -17,4 +17,10 @@ export default {
 
 <style scoped>
 
+  #app {
+    height: 100vh;
+    background: url('./assets/background/animated_snow_2.gif');
+    background-size: cover;
+  }
+
 </style>
