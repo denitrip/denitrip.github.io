@@ -93,6 +93,7 @@
       },
       restart(){
         this.setDefaults();
+        this.$root.$emit('setCookieToDefault');
         this.start();
       },
       saveScore() {

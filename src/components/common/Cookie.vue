@@ -42,6 +42,7 @@
         return  Math.floor(Math.random() * (15 - 1)) + 1 === 7
       },
       setDefaults(){
+        this.showCookieMonster = false;
         this.$refs['cookie'].style.top = `${this.maxHeight/2}px`;
         this.$refs['cookie'].style.left = `${this.maxWidth/2}px`;
       }
@@ -56,6 +57,9 @@
     },
     mounted(){
       this.setDefaults();
+      this.$root.$on('setCookieToDefault', () => {
+        this.setDefaults();
+      })
     }
   }
 </script>
