@@ -15,12 +15,14 @@
       return {
         showCookieMonster: false,
         cookieMonsterClickCounter: 0,
-        cookieMonsterMaximumClicks: 4
+        cookieMonsterMaximumClicks: 4,
+        timeFromTheLastClick: 3
       }
     },
     methods: {
       changePosition(){
         if (!this.showCookieMonster) {
+          this.timeFromTheLastClick = 3;
           const left = 100 + Math.random() * (this.maxWidth - 300);
           const top = 200 + Math.random() * (this.maxHeight - 400);
           this.$el.style.left = `${left}px`;
@@ -38,13 +40,32 @@
         }
         else {this.cookieMonsterClickCounter++}
       },
+      moveAfterTimeout() {
+        let timer = setInterval(
+          () => {
+            if (this.timeFromTheLastClick === 0) {
+              this.changePosition();
+            }
+            else if (this.timeFromTheLastClick === -1) {
+              clearInterval(timer);
+            }
+            else {
+              this.timeFromTheLastClick--;
+            }
+          }, 1000)
+      },
       timeForABigCookie() {
         return  Math.floor(Math.random() * (15 - 1)) + 1 === 7
       },
       setDefaults(){
         this.showCookieMonster = false;
+        this.timeFromTheLastClick = 3;
+        this.moveAfterTimeout();
         this.$refs['cookie'].style.top = `${this.maxHeight/2}px`;
         this.$refs['cookie'].style.left = `${this.maxWidth/2}px`;
+      },
+      stop() {
+        this.timeFromTheLastClick = -1;
       }
     },
     computed: {
@@ -58,7 +79,12 @@
     mounted(){
       this.setDefaults();
       this.$root.$on('setCookieToDefault', () => {
-        this.setDefaults();
+        if (this.$refs['cookie']) {
+          this.setDefaults();
+        }
+      });
+      this.$root.$on('stopTheGame', () => {
+        this.stop();
       })
     }
   }

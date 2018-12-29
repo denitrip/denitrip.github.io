@@ -63,7 +63,6 @@
     },
     methods: {
       start() {
-        console.log(this.userData);
         if (this.userData.username){
           this.$refs['GameSettingsModal'].hide();
           this.$root.$emit('startTheGame',this.userData);

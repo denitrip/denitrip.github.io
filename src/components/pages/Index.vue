@@ -85,15 +85,16 @@
       },
       start() {
         this.gameData.isGameActive = true;
+        this.$root.$emit('setCookieToDefault');
         this.updateTime();
       },
       stop(){
         this.saveScore();
+        this.$root.$emit('stopTheGame');
         this.gameData.isGameActive = false;
       },
       restart(){
         this.setDefaults();
-        this.$root.$emit('setCookieToDefault');
         this.start();
       },
       saveScore() {
