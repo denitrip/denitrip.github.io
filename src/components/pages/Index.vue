@@ -56,8 +56,8 @@
       return {
         gameData: {
           username: '',
-          timeLeft: 3,
-          maxTime: 3,
+          timeLeft: null,
+          maxTime: null,
           score: 0,
           isGameActive: false,
           numberOfCookies: null
