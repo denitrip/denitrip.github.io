@@ -1,5 +1,5 @@
 <template>
-  <b-modal ref="PlayerNameModal"
+  <b-modal ref="GameSettingsModal"
            title="Player information"
   >
     <b-row>
@@ -18,6 +18,17 @@
       <b-col>
         <multiselect v-model="userData.gameSpeed" :max-height="200"
                      placeholder="Choose game speed" :options="gameSpeedOptions"
+                     :show-labels="false" :allow-empty="false"
+                     :taggable="true" :close-on-select="true"></multiselect>
+      </b-col>
+    </b-row>
+    <b-row class="margin-top-5">
+      <b-col cols="3">
+        Number of cookies:
+      </b-col>
+      <b-col>
+        <multiselect v-model="userData.numberOfCookies" :max-height="200"
+                     placeholder="Choose number of cookies" :options="numberOfCookiesOptions"
                      :show-labels="false" :allow-empty="false"
                      :taggable="true" :close-on-select="true"></multiselect>
       </b-col>
@@ -43,16 +54,18 @@
       return {
         userData: {
           username: '',
-          gameSpeed: ''
+          gameSpeed: '',
+          numberOfCookies: null
         },
-        gameSpeedOptions: ['fast', 'medium', 'normal']
+        gameSpeedOptions: ['fast', 'medium', 'normal'],
+        numberOfCookiesOptions: [1,2,3,4,5]
       }
     },
     methods: {
       start() {
         console.log(this.userData);
         if (this.userData.username){
-          this.$refs['PlayerNameModal'].hide();
+          this.$refs['GameSettingsModal'].hide();
           this.$root.$emit('startTheGame',this.userData);
         }
         else {
@@ -61,13 +74,14 @@
       },
       setDefaults() {
         this.userData.gameSpeed = 'normal';
+        this.userData.numberOfCookies = 1;
       }
     },
     mounted() {
-      this.$root.$on('openPlayerNameModal', () => {
+      this.$root.$on('openGameSettingsModal', () => {
         cleanFilters(this.userData);
         this.setDefaults();
-        this.$refs['PlayerNameModal'].show();
+        this.$refs['GameSettingsModal'].show();
       })
     }
   }

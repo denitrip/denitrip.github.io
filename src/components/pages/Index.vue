@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-jumbotron text-variant="white" border-variant="dark">
+  <div class="jumbotron-container">
+    <b-jumbotron text-variant="white" border-variant="dark" class="jumbotron fluid container-fluid">
         <b-row>
           <b-col>
             <label>Name:</label>
@@ -33,7 +33,7 @@
         </b-col>
       </b-row>
     </b-jumbotron>
-    <span v-show="gameData.isGameActive" @click="updateScore" >
+    <span v-for="index in gameData.numberOfCookies" :key="index" v-show="gameData.isGameActive" @click="updateScore" >
     <cookie></cookie>
     </span>
     <player-name-modal></player-name-modal>
@@ -48,7 +48,7 @@
   import {mapMutations} from "vuex";
   import {mapActions} from "vuex";
   import Cookie from '../common/Cookie.vue'
-  import PlayerNameModal from '../modals/PlayerNameModal.vue'
+  import PlayerNameModal from '../modals/GameSettingsModal.vue'
   import PreviousResultsModal from '../modals/PreviousResultsModal.vue'
 
   export default {
@@ -60,6 +60,7 @@
           maxTime: 3,
           score: 0,
           isGameActive: false,
+          numberOfCookies: null
         },
         previousResults: []
       }
@@ -107,7 +108,7 @@
         this.gameData.timeLeft = this.gameData.maxTime;
       },
       openPlayerNameModal(){
-        this.$root.$emit('openPlayerNameModal');
+        this.$root.$emit('openGameSettingsModal');
       },
       openPreviousResultsModal(){
         this.$root.$emit('openPreviousResultsModal', this.previousResults);
@@ -132,6 +133,7 @@
       this.openPlayerNameModal();
       this.$root.$on('startTheGame', (userData) => {
         this.gameData.username = userData.username;
+        this.gameData.numberOfCookies = userData.numberOfCookies;
         this.gameModeCheck(userData);
         this.setDefaults();
         this.start();
@@ -143,6 +145,8 @@
 <style scoped>
 
   .jumbotron {
+    height: 20vh;
+    min-height: 200px;
     background-color: rgb(0, 0, 0, 0.4)!important;
   }
 

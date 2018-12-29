@@ -21,8 +21,8 @@
     methods: {
       changePosition(){
         if (!this.showCookieMonster) {
-          const left = Math.random() * (this.maxWidth * 0.9) + 0.05 * this.maxWidth;
-          const top = 150 + Math.random() * (this.maxHeight * 0.6) + 0.05 * this.maxHeight;
+          const left = 100 + Math.random() * (this.maxWidth - 200);
+          const top = 200 + Math.random() * (this.maxHeight - 300);
           this.$el.style.left = `${left}px`;
           this.$el.style.top = `${top}px`;
           if (this.timeForABigCookie()) {
