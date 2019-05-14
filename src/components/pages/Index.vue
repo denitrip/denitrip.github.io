@@ -33,9 +33,10 @@
         </b-col>
       </b-row>
     </b-jumbotron>
-    <span v-for="index in gameData.numberOfCookies" :key="index" v-show="gameData.isGameActive" @click="updateScore" >
-    <cookie></cookie>
-    </span>
+    <cookie v-for="index in gameData.numberOfCookies" :key="index" v-show="gameData.isGameActive"
+            :updateScore="updateScore"></cookie>
+    <cookie-eater v-for="index in gameData.numberOfCookies" :key="-index" v-show="gameData.isGameActive"
+                  :getMinusScore="getMinusScore" :timeLimit="gameData.maxTime"></cookie-eater>
     <player-name-modal></player-name-modal>
     <previous-results-modal></previous-results-modal>
   </div>
@@ -48,6 +49,7 @@
   import {mapMutations} from "vuex";
   import {mapActions} from "vuex";
   import Cookie from '../common/Cookie.vue'
+  import CookieEater from '../common/CookieEater.vue'
   import PlayerNameModal from '../modals/GameSettingsModal.vue'
   import PreviousResultsModal from '../modals/PreviousResultsModal.vue'
 
@@ -68,7 +70,8 @@
     components: {
       Cookie,
       PlayerNameModal,
-      PreviousResultsModal
+      PreviousResultsModal,
+      CookieEater
     },
     methods: {
       updateTime() {
@@ -105,6 +108,9 @@
           this.gameData.score++;
         }
       },
+      getMinusScore() {
+        this.gameData.score--;
+      },
       setDefaults(){
         this.gameData.score = 0;
         this.gameData.timeLeft = this.gameData.maxTime;
@@ -128,8 +134,6 @@
             break;
         }
       }
-    },
-    computed: {
     },
     mounted() {
       this.openPlayerNameModal();

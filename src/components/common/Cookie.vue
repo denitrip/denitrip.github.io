@@ -10,7 +10,7 @@
   import Vue from 'vue';
 
   export default {
-    props: ['gameStatus'],
+    props: ['gameStatus', 'updateScore'],
     data() {
       return {
         showCookieMonster: false,
@@ -20,7 +20,8 @@
       }
     },
     methods: {
-      changePosition(){
+      changePosition(event){
+        if (event && event.type === 'click') this.updateScore();
         if (!this.showCookieMonster) {
           this.timeFromTheLastClick = 3;
           const left = 100 + Math.random() * (this.maxWidth - 300);
@@ -70,10 +71,10 @@
     },
     computed: {
       maxWidth(){
-        return window.screen.availWidth;
+        return window.visualViewport.width;
       },
       maxHeight(){
-        return window.screen.availHeight;
+        return window.visualViewport.height;
       }
     },
     mounted(){

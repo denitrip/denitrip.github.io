@@ -18,6 +18,11 @@ import "../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
+import '../node_modules/vue-awesome/icons'
+
+import Icon from '../node_modules/vue-awesome/components/Icon';
+Vue.component('icon', Icon);
+
 import Notifications from 'vue-notification'
 
 Vue.use(Notifications);
